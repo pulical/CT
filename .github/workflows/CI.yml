@@ -10,7 +10,7 @@ jobs:
      steps:
      - uses: actions/checkout@v2
      - name: running staging env
-       if: ${{push.branches and pull.branches == 'master'}}
+       if: ${{push.branches and pull.branches == 'main'}}
          run: chmod +x github.sh
          run: ./github.sh [imagename] [git dockerfile url]
          shell: bash
