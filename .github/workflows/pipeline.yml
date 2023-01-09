@@ -13,4 +13,5 @@ jobs:
        run: chmod +x github.sh
             
      - name: running
-       run: sh ./github.sh       
+       run: sh ./github.sh
+       shell: bash
