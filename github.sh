@@ -1,2 +1,2 @@
-ls -ltr
+ls
 date
