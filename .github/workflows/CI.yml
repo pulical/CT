@@ -1,21 +1,26 @@
 name: Deploy based on env
+
+
 on:
-  push: 
+    push: 
      branches: [main,dev]
-  pull_request:
+    pull_request:
      branches: [main,dev]
 
-jobs:
-  build:
-     steps:
+jobs: 
+  test:
+    runs-on: ubuntu-latest
+    steps:
      - uses: actions/checkout@v2
      - name: running staging env
        if: ${{push.branches and pull.branches == 'main'}}
-         run: chmod +x github.sh
-         run: ./github.sh [imagename] [git dockerfile url]
-         shell: bash
+         run:|
+          chmod +x github.sh
+          ./github.sh [imagename] [git dockerfile url]
+          bash github.sh
      - name: running sandbox env
        if: ${{push.branches and pull.branches == 'dev'}}
-         run: chmod +x github.sh
-         run: ./github.sh [imagename] [git dockerfile url]
-         shell: bash
+         run:|
+           chmod +x github.sh
+           ./github.sh [imagename] [git dockerfile url]
+           bash github.sh
