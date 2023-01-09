@@ -1,1 +1,1 @@
-ls -a
+sudo apt install docker
