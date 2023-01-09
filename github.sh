@@ -1,3 +1,2 @@
 #!/bin/bash
-ls -ltr
-date
+ls -a
