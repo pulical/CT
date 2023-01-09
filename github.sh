@@ -1,2 +1,1 @@
-ls
-date
+echo "ress"
