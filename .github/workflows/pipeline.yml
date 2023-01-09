@@ -11,7 +11,5 @@ jobs:
      - name: running staging env
        run: |
           chmod +x github.sh
-    
-          ./github.sh #[imagename] [git dockerfile url]
-          
+          bash github.sh 
  
