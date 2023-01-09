@@ -1,1 +1,1 @@
-echo "hfas"
+ls -a
