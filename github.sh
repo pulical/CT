@@ -44,112 +44,50 @@ fi
 # push the image
 docker push $IMAGE.dkr.ecr.$region.amazonaws.com/my-docker-image:latest
 
-if [ "$APPROVE" = "yes" ]; then
-
 
 chmod +x tempauth.sh
 source /tempauth.sh
 
 # Add the helm repo
-    helm repo add $helm_repo_url
+helm repo add $helm_repo_url
 
 # Update the helm repo
-    helm repo update
+helm repo update
 
 
-    if [ "$helm_name" = "frontend"]
-
-        cd $helm_name
-
-        helm upgrade $helm_name -f values.yaml -f deployment.yaml <foldername>/$helm_name
-
-        exit
-
-    fi
-
-    if [ "$helm_name" = "dynamo"]
+if [ "$helm_name" = "frontend"]
 
         cd $helm_name
 
         helm upgrade $helm_name -f values.yaml -f deployment.yaml <foldername>/$helm_name
 
         exit
-
-    fi
-
-    if [ "$helm_name" = "license"]
-
-        cd $helm_name
-
-        helm upgrade $helm_name -f values.yaml -f deployment.yaml <foldername>/$helm_name
-
-        exit
-
-    fi
-
-    if [ "$helm_name" = "server"]
-
-        cd $helm_name
-
-        helm upgrade $helm_name -f values.yaml -f deployment.yaml <foldername>/$helm_name
-
-        exit
-
-    fi
-
-else
-
-# Push the docker image to the kubernetes cluster in sandbox
-
-chmod +x tempauth1.sh
-source /tempauth1.sh
-
-
-# Add the dockerhub helm repo
-    helm repo add $helm_repo_url
-
-# Update the helm repo
-    helm repo update
-
-    if [ "$helm_name" = "frontend"]
-
-        cd $helm_name
-
-        helm upgrade $helm_name -f values.yaml -f deployment.yaml <foldername>/$helm_name
-
-        exit
-
-    fi
-
-    if [ "$helm_name" = "dynamo"]
-
-        cd $helm_name
-
-        helm upgrade $helm_name -f values.yaml -f deployment.yaml <foldername>/$helm_name
-
-        exit
-
-    fi
-
-    if [ "$helm_name" = "license"]
-
-        cd $helm_name
-
-        helm upgrade $helm_name -f values.yaml -f deployment.yaml <foldername>/$helm_name
-
-        exit
-
-    fi
-
-    if [ "$helm_name" = "server"]
-
-        cd $helm_name
-
-        helm upgrade $helm_name -f values.yaml -f deployment.yaml <foldername>/$helm_name
-
-        exit
-
-    fi
 
 fi
 
+if [ "$helm_name" = "dynamo"]
+
+        cd $helm_name
+
+        helm upgrade $helm_name -f values.yaml -f deployment.yaml <foldername>/$helm_name
+
+        exit
+ fi
+
+if [ "$helm_name" = "license"]
+
+        cd $helm_name
+
+        helm upgrade $helm_name -f values.yaml -f deployment.yaml <foldername>/$helm_name
+
+        exit
+fi
+
+if [ "$helm_name" = "server"]
+
+        cd $helm_name
+
+        helm upgrade $helm_name -f values.yaml -f deployment.yaml <foldername>/$helm_name
+
+        exit
+fi
