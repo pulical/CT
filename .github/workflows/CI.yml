@@ -1,6 +1,4 @@
 name: Deploy based on env
-
-
 on:
     push: 
      branches: [main,dev]
