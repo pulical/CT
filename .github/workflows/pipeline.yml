@@ -2,8 +2,6 @@ name: Deploy based on env
 on:
     push: 
      branches: ["*"]
-    pull_request:
-     branches: ["*"]
 
 jobs: 
   test:
@@ -11,7 +9,6 @@ jobs:
     steps:
      - uses: actions/checkout@v2
      - name: running staging env
-       if: ${{push.branches or pull.branches == 'main'}}
          run:|
           chmod +x github.sh
           ls -ltr
