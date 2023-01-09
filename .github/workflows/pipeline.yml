@@ -9,9 +9,8 @@ jobs:
     steps:
      - uses: actions/checkout@v3
      
-     - name: giving permissions
-       run: chmod +x github.sh
-            
-     - name: running
-       run: sh ./github.sh
+     - name: giving permissions and running
+       run: |
+         chmod +x github.sh
+         sh ./github.sh
        shell: bash
