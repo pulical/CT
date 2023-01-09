@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.frontend.name }}
+  labels:
+    {{- include "helm-charts.labels". | nindent 4}}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "helm-charts.selectorlabels". | nindent 6}}
+  template:
+    metadata:
+      labels:
+        {{- include "helm-charts.selectorlabels". | nindent 8}}
+    spec:
+      containers:
+      - name: {{ .Values.frontend.containername }}
+        image: {{ .Values.frontend.image }}  
+        ports:
+        - containerPort: {{ .Values.service.containerport }}
+         name: {{.values.service.name}}
+        env:
+        - name: {{values.env.name}}
+          value: {{values.env.value}}
+        - name: REACT_APP_CLIENT_ID
+          value: "0oa3wdn7nuv4jxwWN5d7"
+        - name: REACT_APP_ISSUER
+          value: "https://dev-16074608.okta.com/oauth2/default"  
+      

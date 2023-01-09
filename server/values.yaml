@@ -1,0 +1,10 @@
+replicaCount: 1
+server:
+  name: complyscan-server-deployment
+  image: 103818842073.dkr.ecr.us-east-2.amazonaws.com/complyscan-server:18.0
+  containername: http-server-svc
+service:
+  name: server
+  type: ClusterIP
+  containerport: 8001
+  protocol: TCP

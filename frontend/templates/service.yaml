@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels: {{ include "helm-charts.labels". | nindent 4 }}
+spec:
+  selector:             
+    app: {{ .Values.frontend.containername }}
+  ports:
+  - name: {{ .Values.service.name }}
+    protocol: {{ .values.service.protocol }}
+    port: {{ .Values.service.containerport }}       
+    targetPort: {{ .Values.service.name }}   

@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.dynamo.name }}
+  labels:
+    {{- include "helm-charts.labels". | nindent 4}}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "helm-charts.selectorlabels". | nindent 6}}
+  template:
+    metadata:
+      labels:
+        {{- include "helm-charts.selectorlabels". | nindent 8}}
+    spec:
+      containers:
+     - name: {{ .Values.service.name }}
+       image: {{ .Values.dynamo.image }}  
+       ports:
+       - containerPort: {{ .Values.service.targetport }}
+         name: {{ .values.dynamo.containername }}
+      

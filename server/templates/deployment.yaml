@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .values.server.name }}
+  labels:
+    {{- include "helm-charts.labels". | nindent 4}}
+spec:
+  replicas: {{ .values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "helm-charts.selectorlabels". | nindent 6}}
+  template:
+    metadata:
+      labels:
+        {{- include "helm-charts.selectorlabels". | nindent 8}}
+    spec:
+      containers:
+      - name: {{ .values.service.name }}
+        image: {{ .values.server.image }}
+        ports:
+        - containerPort: {{ .values.service.containerport }}
+          name: {{ .values.server.containername }}
+        env:
+        - name: PORT
+          value: {{ .values.service.containerport | quote }}
+        - name: AWS_REGION
+          value: "us-east-2"
+        - name: AWS_ACCESS_KEY_ID
+          value: "AKIARQLAVZ7MYKFDUS6Y"
+        - name: AWS_SECRET_ACCESS_KEY
+          value: "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"
+        - name: LICENSE_BASE_URL
+          value: https://license-svc:4242

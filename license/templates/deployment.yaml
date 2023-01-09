@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .values.license.name }}
+  labels:
+    {{- include "helm-charts.labels". | nindent 4}}
+spec:
+  replicas: {{ .values.replicaCount}}
+  selector:
+    matchLabels:
+      {{- include "helm-charts.selectorlabels". | nindent 6}}
+  template:
+    metadata:
+      labels:
+        {{- include "helm-charts.selectorlabels". | nindent 8}}
+    spec:
+      containers:
+      - name: {{ .values.service.name }}
+        image: {{ .values.license.image }} 
+        ports:
+        - containerPort: {{ .values.service.containerport }}
+          name: {{ .values.license.containername }}
+        env:
+        - name: {{ .values.env.name }}
+          value: {{ .values.env.value }}
+       

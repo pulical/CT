@@ -1,0 +1,13 @@
+replicaCount: 1
+license:
+  name: complyscan-license-deployment
+  image: 103818842073.dkr.ecr.us-east-2.amazonaws.com/license-server:1.0
+  containername: http-license
+service:
+  name: license
+  type: ClusterIP
+  containerport: 4242
+  protocol: TCP
+env:
+  name: DYNAMO_SERVICE
+  value: http://dynamo-svc:8000
