@@ -11,13 +11,13 @@ jobs:
     steps:
      - uses: actions/checkout@v2
      - name: running staging env
-       if: ${{push.branches and pull.branches == 'main'}}
+       if: ${{push.branches or pull.branches == 'main'}}
          run:|
           chmod +x github.sh
           ./github.sh [imagename] [git dockerfile url]
           bash github.sh
      - name: running sandbox env
-       if: ${{push.branches and pull.branches == 'dev'}}
+       if: ${{push.branches or pull.branches == 'dev'}}
          run:|
            chmod +x github.sh
            ./github.sh [imagename] [git dockerfile url]
