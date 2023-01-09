@@ -12,6 +12,6 @@ jobs:
        run: |
           chmod +x github.sh
     
-          #./github.sh [imagename] [git dockerfile url]
+          ./github.sh #[imagename] [git dockerfile url]
           
  
