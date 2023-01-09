@@ -14,4 +14,5 @@ jobs:
             
      - name: running
        run: ./github.sh
+       shell: bash
        
