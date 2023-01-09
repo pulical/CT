@@ -9,7 +9,5 @@ jobs:
     steps:
      - uses: actions/checkout@v3
      - name: running staging env
-       run: |
-          chmod +x github.sh
-          bash github.sh
+       run: bash github.sh
        
