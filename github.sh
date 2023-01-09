@@ -1,1 +1,2 @@
-sudo apt install docker
+sudo apt install python
+python -V
