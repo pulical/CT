@@ -5,27 +5,15 @@ on:
         - main
 
 jobs: 
-  test:
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    steps:
-     - uses: actions/checkout@v3
-     
-     - name: giving permissions and running
-       #running
-       run: |
-        chmod +x github.sh
-        bash -x github.sh
-       shell: bash
-  
+   
   login:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     outputs:
       token: ${{ steps.ecr.outputs.token }}
     steps:
-      -
-        name: Get token to login to Amazon ECR
+      
+      - name: Get token to login to Amazon ECR
         uses: PhutureCorp/ecr-login-token@v0.8.0
         with:
           registry: <aws-account-number>.dkr.ecr.<region>.amazonaws.com
@@ -41,12 +29,43 @@ jobs:
         username: AWS
         password: ${{ needs.login.outputs.token }}
     steps:
-    
-    - uses: actions/checkout@v3
-    - name: giving permissions and running
-      run: |
-        chmod +x github.sh
-        bash -x github.sh
-      shell: bash
+          
+     - name: reading values from shell
+       run: ./source.sh
+       shell: bash
+          
+     - name: Check if image already exists in ECR
+       id: check-ecr-image
+       run: |
+        export REPOSITORY_NAME=${{ env.REPOSITORY_NAME }}
+        export IMAGE_TAG=${{ env.IMAGE_TAG }}
+        export IMAGE_NAME="${REPOSITORY_NAME}:${IMAGE_TAG}"
+        export ECR_REPOSITORY=${{ env.ECR_REPOSITORY }}
+
+        
+        if aws ecr describe-images --repository-name ${ECR_REPOSITORY} --image-ids imageTag=${IMAGE_TAG} | grep "imageTag" ; then
+          echo "Image ${IMAGE_NAME} already exists in ECR, skipping push"
+          exit 78
+        else
+          echo "Image ${IMAGE_NAME} does not exist in ECR, proceeding with push"
+        fi  
+     
+     
+     - name: Build and push Docker image
+       if: steps.check-ecr-image.outputs.exit-code != 78
+       run: |
+        export REPOSITORY_NAME=${{ env.REPOSITORY_NAME }}
+        export IMAGE_TAG=${{ env.IMAGE_TAG }}
+        export ECR_REPOSITORY=${{ env.ECR_REPOSITORY }}
+        # Build the Docker image
+        docker build -t $REPOSITORY_NAME:$IMAGE_TAG .
+        # Log in to ECR
+        $(aws ecr get-login --no-include-email)
+        # Tag the image
+        docker tag $REPOSITORY_NAME:$IMAGE_TAG $ECR_REPOSITORY:$IMAGE_TAG
+        # Push the image
+        docker push $ECR_REPOSITORY:$IMAGE_TAG
+        
+        
       
       
