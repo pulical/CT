@@ -25,4 +25,4 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
      
      - name: Docker push
-       run: docker push firstcontainer/firstrepo
+       run: docker push firstcontainer ${{ secrets.DOCKER_USERNAME}}/firstrepo
