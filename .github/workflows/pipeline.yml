@@ -13,4 +13,4 @@ jobs:
      - run:  echo $path
      - run: chmod +x github.sh
      - run: sh ./github.sh
-       shell: bash
+     - shell: bash
