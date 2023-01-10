@@ -12,5 +12,5 @@ jobs:
      - name: giving permissions and running
        run: |
         chmod +x github.sh
-        sh github.sh
+        bash -x github.sh
        shell: bash
