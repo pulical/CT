@@ -1,2 +1,2 @@
-docker build -t firstcontainer .
+docker build -t {{ secrets.DOCKER_USERNAME }}/firstcontainer .
 docker images
