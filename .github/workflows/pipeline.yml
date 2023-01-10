@@ -7,11 +7,12 @@ on:
 jobs: 
   test:
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
     steps:
      - uses: actions/checkout@v3
      
      - name: giving permissions and running
-       if: contains(github.ref, "main")
+       
        run: |
         chmod +x github.sh
         bash -x github.sh
