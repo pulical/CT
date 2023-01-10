@@ -1,1 +1,2 @@
-docker build . --file Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}:firstrepo
+docker build -t firstcontainer:${{ secrets.DOCKER_USERNAME }}
+docker images
