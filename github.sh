@@ -1,2 +1,2 @@
-sudo apt install python
-python -V
+ls -lrt
+date
