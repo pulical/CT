@@ -2,7 +2,7 @@ name: Deploy based on env
 on:
     push: 
      branches: 
-        - 'main'
+        - main
 
 jobs: 
   test:
