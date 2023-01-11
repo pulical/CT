@@ -21,7 +21,7 @@ jobs:
           password: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   build:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main/frontend'
     needs: login
     container:
       image: <aws-account-number>.dkr.ecr.<region>.amazonaws.com/<image>:<version>
@@ -29,10 +29,21 @@ jobs:
         username: AWS
         password: ${{ needs.login.outputs.token }}
     steps:
-          
-     - name: reading values from shell
-       run: ./source.sh
-       shell: bash
+
+     - name: Get branch name
+       id: branch_name
+       run: echo "::set-output name=branch_name::${{ github.ref }}"
+     
+     - name: Extract folder name
+       run: |
+        
+        branch_name=${{ steps.branch_name.outputs.branch_name }}
+        folder_name=${branch_name##*/}
+        echo "Folder name: $folder_name"
+     
+   #  - name: reading values from shell
+    #   run: ./source.sh
+     #  shell: bash
           
      - name: Check if image already exists in ECR
        id: check-ecr-image
@@ -57,7 +68,8 @@ jobs:
         export REPOSITORY_NAME=${{ env.REPOSITORY_NAME }}
         export IMAGE_TAG=${{ env.IMAGE_TAG }}
         export ECR_REPOSITORY=${{ env.ECR_REPOSITORY }}
-        # Build the Docker image
+    
+        #Build the Docker imager
         docker build -t $REPOSITORY_NAME:$IMAGE_TAG .
         # Log in to ECR
         $(aws ecr get-login --no-include-email)
@@ -65,6 +77,19 @@ jobs:
         docker tag $REPOSITORY_NAME:$IMAGE_TAG $ECR_REPOSITORY:$IMAGE_TAG
         # Push the image
         docker push $ECR_REPOSITORY:$IMAGE_TAG
+        
+        
+     - name: Deploy Helm
+       uses: bitovi/github-actions-deploy-eks-helm@v1.0.0
+       with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-2
+        cluster-name: ${{ secrets.CLUSTER_NAME }}
+        run: |
+          cd $folder_name
+          helm upgrade ${{ secrets.HELM_NAME }} -f values.yaml -f deployment.yaml $folder_name/${{ secrets.HELM_NAME }}
+
         
         
       
