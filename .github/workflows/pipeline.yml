@@ -51,7 +51,19 @@ jobs:
         docker build -t first .
         docker tag first:latest 085395249379.dkr.ecr.us-east-1.amazonaws.com/$ECR_REPOSITORY:$IMAGE_TAG
         docker push 085395249379.dkr.ecr.us-east-1.amazonaws.com/sample-repo
-     
+   
+     - name: upload image to ECR
+       uses: appleboy/docker-ecr-action@master
+       with:
+          access_key: ${{ secrets.aws_access_key_id }}
+          secret_key: ${{ secrets.aws_secret_access_key }}
+          registry: ${{ steps.login-ecr.outputs.registry }}
+          repo: myekscluster
+          region: us-east-1
+          auto_tag: true
+          daemon_off: false
+          dockerfile: Dockerfile
+          context: example
                  
      - name: login to amazon ECR
        id: login-ecr
