@@ -46,7 +46,7 @@ jobs:
          export AWS_ACCESS_KEY_ID= ${{ secrets.AWS_ACCESS_KEY_ID }}
          export AWS_SECRET_ACCESS_KEY= ${{ secrets.AWS_ACCESS_KEY }}
          export AWS_SESSION_TOKEN="IQoJb3JpZ2luX2VjEEYaCXVzLXdlc3QtMiJHMEUCIQD0XPL53FT+QLuOBUExJTENmmrCDTsp9QRQ79SLlh/LQQIgL1mOGPcFKYCcjmmfsLOlIe8uSYaYEAUPEfY/I6PLe1oq/AIIn///////////ARABGgwwODUzOTUyNDkzNzkiDIDPrP0q2ld/QvOtZyrQAqbFspX9OzAa9/VWFPMHjXEg5h1uzP1EjG62nuTo1C2cbDASPrB+JX9mh1TNYuzoUl/0BHsxas263tfIxQlxel4Rde6iB6XSpVcr+LxktfrQZycNbYs1t8KIEXuWXO7QqqeG4K05zv+9IFlSxHXEnZo+h9/RutERq4Qujj+TEpqo/QUvnWeK10RQBMN/OscT67bsHsHNrCUQvu8/AIWi0avKQNzD/Dp4MycEoOw4VobrXexzdwXncMUQb9M3yDjw9fSvCtrXd4h9Gcpw+MPL0TndYhz4MTuSY7PF2ybgT21oYnbfmFV002gT7+AtCFN7lL/brcXhLN4UUsCoW3AUN/NPW/xVSSzE86fTq6YoEjIGpikWfUUPnSbpshHwUzYY67F9MChhflQDwmk/Pg6kKmcRS98ilCuJxMIe1cysYkiJqk1QBqGuPkpq8s17zlDqsDCRk/mdBjqnAaU5RopUb3nXiBq9Xs4Jd4NzOtykJyP2h+o7xAUz5pNOOdX6doP2xk+sHs7EM7WgtchWTbyRDoDY4UMOounkX3Nv0SB6FEcIB4MIrgd1PX34Mq+Zot9/Q1Wk9fQv5+s5/omzv7o7HfpwgEj+w4ptY6XSbBMvgfjk2SnpVh4afN3R2YCw9t19FmHgMAE/LquvBRhPac4rn4mjJht5xAETAj3xQlPgvFgn"
-         export AWS_DEFAULT_REGION= us-east-1
+         export AWS_DEFAULT_REGION= "us-east-1"
          aws eks update-kubeconfig --region us-east-1 --name myekscluster
          kubectl get pods
          kubectl get nodes
