@@ -37,7 +37,7 @@ jobs:
      
    #  - name: reading values from shell
     #   run: ./source.sh
-     #  shell: bash
+     #  shell: bas
           
      - name: logging into awscli
        run: |
