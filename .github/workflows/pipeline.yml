@@ -33,6 +33,9 @@ jobs:
           role-to-assume: arn:aws:iam::085395249379:role/sreekanth-role-delete-me
           aws-region: us-east-1
           
+     - name: Get ECR Login
+       run: aws ecr get-login-password --region us-east-1 | docker login --pulical AWS --password-stdin 085395249379.dkr.ecr.us-east-1.amazonaws.com     
+          
      - name: ecr image checking
        uses: aws-actions/configure-aws-credentials@v1 # More information on this action can be found below in the 'AWS Credentials' section
        with:
