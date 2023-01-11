@@ -69,7 +69,7 @@ jobs:
        run: |
         
          cd frontend
-         helm install --upgrade -f values.yaml -f deployment.yaml frontend/myhelm
+         helm upgrade --install -f values.yaml -f deployment.yaml frontend/myhelm
      
              
        
