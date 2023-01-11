@@ -54,9 +54,9 @@ jobs:
      - name: Build and push Docker image
        if: steps.check-ecr-image.outputs.exit-code != 78
        run: |
-        export REPOSITORY_NAME=${{ env.REPOSITORY_NAME }}
-        export IMAGE_TAG=${{ env.IMAGE_TAG }}
-        export ECR_REPOSITORY=${{ env.ECR_REPOSITORY }}      
+        export REPOSITORY_NAME=sample-repo
+        #export IMAGE_TAG=${{ env.IMAGE_TAG }}
+        #export ECR_REPOSITORY=${{ env.ECR_REPOSITORY }}      
 
         #Build the Docker imager
         docker build -t $REPOSITORY_NAME:$IMAGE_TAG .
