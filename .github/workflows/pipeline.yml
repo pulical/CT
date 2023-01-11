@@ -6,19 +6,7 @@ on:
 
 jobs: 
    
-  login:
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    outputs:
-      token: ${{ steps.ecr.outputs.token }}
-    steps:
-      
-      - name: Get token to login to Amazon ECR
-        uses: PhutureCorp/ecr-login-token@v0.8.0
-        with:
-          registry: 085395249379.dkr.ecr.us-east-1.amazonaws.com
-          username: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          password: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  
   build:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
