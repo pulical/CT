@@ -30,11 +30,31 @@ jobs:
         branch_name=${{ steps.branch_name.outputs.branch_name }}
         folder_name=${branch_name##*/}
         echo "Folder name: $folder_name"
-     
+        
+        
+     - name: configure AWS Credentials
+       uses: aws-actions/configure-aws-credentials@v1
+       with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+        
+     - name: login to amazon ECR
+       id: login-ecr
+       uses: aws-actions/amazon-ecr-login@v1
+       
+     - name: ecr image checking
+       env:
+         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+         ECR_REPOSITORY: sample-repo
+         IMAGE_TAG: ${{ github.sha }}
+       run: |
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
    #  - name: reading values from shell
     #   run: ./source.sh
      #  shell: bas
-     - name: AWS Login
+     - name: AWS configure
        run: |
          export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
          export AWS_SECRET_ACCESS_KEY="CvBz1JNY3TrkClSe1vEiI3jmnxZSTF2PtO/vjLIx"
