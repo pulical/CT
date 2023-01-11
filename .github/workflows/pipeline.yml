@@ -43,8 +43,8 @@ jobs:
         export REPOSITORY_NAME=${{ env.REPOSITORY_NAME }}
         export IMAGE_TAG=${{ env.IMAGE_TAG }}
         export IMAGE_NAME="${REPOSITORY_NAME}:${IMAGE_TAG}"
-        export ECR_REPOSITORY=${{ env.ECR_REPOSITORY }}
-        if aws ecr describe-images --sample-repo ${ECR_REPOSITORY} --image-ids imageTag=${IMAGE_TAG} | grep "imageTag" ; then
+        #export ECR_REPOSITORY=${{ env.ECR_REPOSITORY }}
+        if aws ecr describe-images --sample-repo --image-ids imageTag=${IMAGE_TAG} | grep "imageTag" ; then
           echo "Image ${IMAGE_NAME} already exists in ECR, skipping push"
           exit 78
         else
@@ -54,18 +54,15 @@ jobs:
      - name: Build and push Docker image
        if: steps.check-ecr-image.outputs.exit-code != 78
        run: |
-        export REPOSITORY_NAME=sample-repo
-        #export IMAGE_TAG=${{ env.IMAGE_TAG }}
-        #export ECR_REPOSITORY=${{ env.ECR_REPOSITORY }}      
-
+      
         #Build the Docker imager
-        docker build -t $REPOSITORY_NAME:$IMAGE_TAG .
+        docker build -t first:v1 .
         # Log in to ECR
-        $(aws ecr get-login --no-include-email)
+        
         # Tag the image
-        docker tag $REPOSITORY_NAME:$IMAGE_TAG $ECR_REPOSITORY:$IMAGE_TAG
+        #docker tag $REPOSITORY_NAME:$IMAGE_TAG $ECR_REPOSITORY:$IMAGE_TAG
         # Push the image
-        docker push $ECR_REPOSITORY:$IMAGE_TAG
+        #docker push sample-repo:v1
      
          
          # cd $folder_name
@@ -73,8 +70,9 @@ jobs:
      
      - name: Deploying to EKS.
        run: |
-        cd $folder_name
-        helm install --upgrade --name my-release $folder_name -f values.yaml -f deployment.yaml $folder_name/my-chart
+        #cd frontend
+        kubectl apply -f template.yaml
+        kubectl get pods
         
       
       
