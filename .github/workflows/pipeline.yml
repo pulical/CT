@@ -67,7 +67,7 @@ jobs:
               
      - name: helm
        run: |
-        
+         kubectl get nodes
          cd frontend
          helm upgrade --install myfirstrelease myhelm -f values.yaml -f templates/deployment.yaml 
          #helm upgrade --install <release_name> <chart> --namespace <namespace> -f <values_file.yaml> [flags]
