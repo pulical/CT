@@ -45,7 +45,7 @@ jobs:
        run: |
          #echo "aws_access_key_id = ${{ secrets.AWS_ACCESS_KEY_ID }}" >> ~/.aws/credentials
          #echo "aws_secret_access_key = ${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> ~/.aws/credentials
-         aws eks update-kubeconfig --name myekscluster
+         aws eks update-kubeconfig --region us-east-1 --name myekscluster
          kubectl get pods
          kubectl get nodes
          # cd $folder_name
