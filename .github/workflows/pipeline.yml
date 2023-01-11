@@ -3,10 +3,12 @@ on:
     push: 
      branches: 
         - main
+permissions:
+   id-token: write
+   contents: read 
 
 jobs: 
-   
-  
+     
   build:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
