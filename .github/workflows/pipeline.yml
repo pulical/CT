@@ -33,11 +33,11 @@ jobs:
      - name: Deploy Helm
        uses: aws-actions/configure-aws-credentials@v1
        with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-2
-        cluster-name: ${{ secrets.CLUSTER_NAME }}
-        run: |
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: us-east-2
+     - name: adding folder  
+       run: |
          mkdir pulical
          # cd $folder_name
          # helm upgrade ${{ secrets.HELM_NAME }} -f values.yaml -f deployment.yaml $folder_name/${{ secrets.HELM_NAME }}
