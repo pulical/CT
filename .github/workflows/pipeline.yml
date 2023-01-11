@@ -66,8 +66,7 @@ jobs:
           context: example
                  
      - name: login to amazon ECR
-       id: login-ecr
-       uses: aws-actions/amazon-ecr-login@v1
+       run: aws ecr describe-repositories
        
      
      - name: updating helm
