@@ -44,7 +44,7 @@ jobs:
         export IMAGE_TAG=${{ env.IMAGE_TAG }}
         export IMAGE_NAME="${REPOSITORY_NAME}:${IMAGE_TAG}"
         export ECR_REPOSITORY=${{ env.ECR_REPOSITORY }}
-        if aws ecr describe-images --${{ REPO_NAME }} ${ECR_REPOSITORY} --image-ids imageTag=${IMAGE_TAG} | grep "imageTag" ; then
+        if aws ecr describe-images --sample-repo ${ECR_REPOSITORY} --image-ids imageTag=${IMAGE_TAG} | grep "imageTag" ; then
           echo "Image ${IMAGE_NAME} already exists in ECR, skipping push"
           exit 78
         else
