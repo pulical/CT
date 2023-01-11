@@ -18,6 +18,11 @@ jobs:
      - name: Get branch name
        id: branch_name
        run: echo "::set-output name=branch_name::${{ github.ref }}"
+       
+     - name: Check folder name
+       run: |
+         FOLDER_NAME=$(git diff-tree --no-commit-id --name-only -r $GITHUB_SHA | cut -d'/' -f1 | sort | uniq)
+         echo "The folder name is $FOLDER_NAME"
      
      - name: Extract folder name
        run: |
@@ -53,10 +58,7 @@ jobs:
           echo "Image ${IMAGE_NAME} does not exist in ECR, proceeding with push"
         fi
         
-     - name: Check folder name
-       run: |
-         FOLDER_NAME=$(git diff-tree --no-commit-id --name-only -r $GITHUB_SHA | cut -d'/' -f1 | sort | uniq)
-         echo "The folder name is $FOLDER_NAME"
+     
      
      - name: Build and push Docker image
        if: steps.check-ecr-image.outputs.exit-code != 78
