@@ -64,6 +64,7 @@ jobs:
      - name: login to amazon ECR
        run: |
          aws ecr list-images --repository-name sample-repo --region us-east-1
+         aws eks update-kubeconfig --region us-east-1 --name myekscluster
               
      - name: helm
        run: |
