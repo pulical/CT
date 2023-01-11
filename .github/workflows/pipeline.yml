@@ -51,8 +51,8 @@ jobs:
      - name: upload image to ECR
        uses: appleboy/docker-ecr-action@master
        with:
-          access_key: ${{ secrets.aws_access_key_id }}
-          secret_key: ${{ secrets.aws_secret_access_key }}
+          access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           registry: ${{ steps.login-ecr.outputs.registry }}
           repo: myekscluster
           region: us-east-1
@@ -64,10 +64,11 @@ jobs:
      - name: login to amazon ECR
        run: |
          aws ecr list-images --repository-name sample-repo --region us-east-1
-         aws eks update-kubeconfig --region us-east-1 --name myekscluster
+         
               
      - name: helm
        run: |
+         aws eks update-kubeconfig --region us-east-1 --name myekscluster
          curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
          chmod 700 get_helm.sh
          ./get_helm.sh
