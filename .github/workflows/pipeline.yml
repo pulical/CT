@@ -46,11 +46,11 @@ jobs:
          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
          ECR_REPOSITORY: sample-repo
          IMAGE_TAG: ${{ github.sha }}
-     - run: |
-        aws ecr describe-repositories
-        docker build -t first .
-        docker tag first:latest 085395249379.dkr.ecr.us-east-1.amazonaws.com/$ECR_REPOSITORY:$IMAGE_TAG
-        docker push 085395249379.dkr.ecr.us-east-1.amazonaws.com/sample-repo
+  #   - run: |
+   #     aws ecr describe-repositories
+   #     docker build -t first .
+   #     docker tag first:latest 085395249379.dkr.ecr.us-east-1.amazonaws.com/$ECR_REPOSITORY:$IMAGE_TAG
+    #    docker push 085395249379.dkr.ecr.us-east-1.amazonaws.com/sample-repo
    
      - name: upload image to ECR
        uses: appleboy/docker-ecr-action@master
