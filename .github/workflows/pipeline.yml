@@ -37,31 +37,26 @@ jobs:
        run: aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 085395249379.dkr.ecr.us-east-1.amazonaws.com
 
           
-     - name: ecr image checking
+     - name: ecr image checking/pushing
        uses: aws-actions/configure-aws-credentials@v1 # More information on this action can be found below in the 'AWS Credentials' section
        with:
           role-to-assume: arn:aws:iam::085395249379:role/sreekanth-role-delete-me
           aws-region: us-east-1
+          access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          registry: ${{ steps.login-ecr.outputs.registry }}
        env:
          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
          ECR_REPOSITORY: sample-repo
          IMAGE_TAG: ${{ github.sha }}
 
-   
-     - name: upload image to ECR
-       uses: appleboy/docker-ecr-action@master
-       with:
-          access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          registry: ${{ steps.login-ecr.outputs.registry }}
-          repo: sample-repo
-          region: us-east-1
-          auto_tag: true
-          daemon_off: false
-          dockerfile: Dockerfile
-          context: example
-                 
-     - name: login to amazon ECR
+     - run: |
+          cd $FOLDER_NAME
+          docker build -t <image_name> .
+          docker tag <image_name>:latest 085395249379.dkr.ecr.us-east-1.amazonaws.com/<image_name>:$IMAGE_TAG
+          docker push 085395249379.dkr.ecr.us-east-1.amazonaws.com/<image_name>:$IMAGE_TAG
+                               
+     - name: seeing images amazon ECR
        run: |
          aws ecr list-images --repository-name sample-repo --region us-east-1
          
