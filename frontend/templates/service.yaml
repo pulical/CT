@@ -7,6 +7,6 @@ spec:
     app: {{ .Values.frontend.containername }}
   ports:
   - name: {{ .Values.service.name }}
-    protocol: {{ .values.service.protocol }}
+    protocol: {{ .Values.service.protocol }}
     port: {{ .Values.service.containerport }}       
     targetPort: {{ .Values.service.name }}   
