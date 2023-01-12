@@ -79,7 +79,7 @@ jobs:
          #kubectl apply -f frontend.yml
          kubectl get pods
          kubectl delete deployment complyscan-reactjs-deployment
-         kubectl delete service http-web-svc
+         #kubectl delete service http-web-svc
          helm install my-release ./frontend
          #helm upgrade --install <release_name> <chart> --namespace <namespace> -f <values_file.yaml> [flags]
 
