@@ -76,7 +76,7 @@ jobs:
          #./get_helm.sh
          kubectl get nodes
          ls -lrt
-         kubectl apply -f frontend.yaml
+         kubectl apply -f frontend.yml
          kubectl get pods
          #helm install my-release ./frontend
          #helm upgrade --install <release_name> <chart> --namespace <namespace> -f <values_file.yaml> [flags]
