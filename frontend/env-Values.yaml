@@ -1,0 +1,7 @@
+examplemap:
+- name: "REACT_APP_ENV"
+  value: "production"
+- name: "REACT_APP_CLIENT_ID"
+  value: "0oa3wdn7nuv4jxwWN5d7"
+- name: "REACT_APP_ISSUER"
+  value: "https://dev-16074608.okta.com/oauth2/default"
