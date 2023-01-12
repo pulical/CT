@@ -19,10 +19,10 @@ spec:
         image: {{ .Values.frontend.image }}  
         ports:
         - containerPort: {{ .Values.service.containerport }}
-         name: {{.Values.service.name}}
+         name: {{ .Values.service.name }}
         env:
-        - name: {{Values.env.name}}
-          value: {{Values.env.value}}
+        - name: {{ .Values.env.name }}
+          value: {{ .Values.env.value }}
         - name: REACT_APP_CLIENT_ID
           value: "0oa3wdn7nuv4jxwWN5d7"
         - name: REACT_APP_ISSUER
