@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: complyscan-reactjs-deployment
+  labels:
+    app: reactjs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reactjs
+  template:
+    metadata:
+      labels:
+        app: reactjs
+    spec:
+      containers:
+      - name: reactjs
+        image: 103818842073.dkr.ecr.us-east-2.amazonaws.com/complyscan-reactjs:20.0
+        ports:
+        - containerPort: 80
+          name: http-web-svc
+        env:
+        - name: REACT_APP_ENV
+          value: "production"
+        - name: REACT_APP_CLIENT_ID
+          value: "0oa3wdn7nuv4jxwWN5d7"
+        - name: REACT_APP_ISSUER
+          value: "https://dev-16074608.okta.com/oauth2/default"
+
+--- 
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+spec:
+  selector:
+    app: reactjs
+  ports:
+  - name: http-web-svc
+    protocol: TCP
+    port: 80
+    targetPort: http-web-svc
