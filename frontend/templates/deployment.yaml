@@ -8,11 +8,11 @@ spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "frontend.selectorlabels" . | nindent 6}}
+      {{- include "frontend.selectorLabels" . | nindent 6}}
   template:
     metadata:
       labels:
-        {{- include "frontend.selectorlabels" . | nindent 8}}
+        {{- include "frontend.selectorLabels" . | nindent 8}}
     spec:
       containers:
       - name: {{ .Values.frontend.containername }}
