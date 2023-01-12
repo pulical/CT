@@ -75,7 +75,6 @@ jobs:
          printenv
          #./get_helm.sh
          kubectl get nodes
-         cd frontend
          ls -lrt
          helm install my-release ./frontend
          #helm upgrade --install <release_name> <chart> --namespace <namespace> -f <values_file.yaml> [flags]
