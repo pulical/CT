@@ -21,10 +21,8 @@ spec:
         - containerPort: {{ .Values.service.containerport }}
          name: {{ .Values.service.name }}
         env:
-        - name: {{ .Values.env.name }}
-          value: {{ .Values.env.value }}
-        - name: REACT_APP_CLIENT_ID
-          value: {{ .Values.service.containervalue }}
-        - name: REACT_APP_ISSUER
-          value: {{ .Values.env.containervalue }}
+          {{ - range .Values.examplemap }}
+          - name: {{ .name }}
+            value: {{ .value }}
+           {{ - end }} 
       
