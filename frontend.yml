@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: reactjs
-        image: 103818842073.dkr.ecr.us-east-2.amazonaws.com/complyscan-reactjs:20.0
+        image: 103818842073.dkr.ecr.us-east-2.amazonaws.com/complyscan-reactjs:latest
         ports:
         - containerPort: 80
           name: http-web-svc
