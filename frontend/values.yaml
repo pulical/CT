@@ -7,7 +7,7 @@ service:
   name: http-web-svc
   type: ClusterIP
   containerport: 80
-  protocol: TCP
+  protocol: TCP 
 env:
   name: REACT_APP_ENV
   value: production
