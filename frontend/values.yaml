@@ -8,6 +8,8 @@ service:
   type: ClusterIP
   containerport: 80
   protocol: TCP 
+  containervalue: 0oa3wdn7nuv4jxwWN5d7
 env:
   name: REACT_APP_ENV
   value: production
+  containervalue: https://dev-16074608.okta.com/oauth2/default
