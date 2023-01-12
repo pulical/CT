@@ -68,11 +68,12 @@ jobs:
               
      - name: helm
        run: |
+         
          export AWS_ACCESS_KEY_ID="ASIARHYPUDDRW327MWLC"
          export AWS_SECRET_ACCESS_KEY="/gowGpiF5qLsrC3gsYOqg98gIvFzd1wdfwjTe4kP"
          export AWS_SESSION_TOKEN="IQoJb3JpZ2luX2VjEF4aCXVzLXdlc3QtMiJIMEYCIQDflmMFe3SYbxO6msftVqSii4apgtnikRtWvkp4d6JzjQIhANQfsjAAGMmLlPDj6SHPxsNAxgbfaNxiwllnNCI8w+gAKv8CCLf//////////wEQARoMMDg1Mzk1MjQ5Mzc5Igx8EUix3xI8rfU8j7cq0wIk5XG5yVvPsPcvPOzncMLxMnYx7TEEbM/Xa3LOlJVi0yP3fXpqxeDeRzE79d8Z+Wnus3Sk3Qweu9d3D9f/KEXDkDVZ+VLwIiwcc+MYB+u8WmqoHcdP4nwDmUTEfJRABa4Fq+x/+La2LTyXOwwvD3hykNgpcU51x2i97ayps5yIlJp2lGMLDdCcPGhjE5eVy0eRo2LObXbstB9YtwoJXqf/zTAhZBSxg1Lj/sLWw56xHRYzuwXyTYi5Zo4LNig/5i6Q1RwaNYX5OaFpHsePSB9JAc3rq7jkj7aYJ/C0A5snOsQND0STjFYLUZC53eK6OxhS3olgq2tJ1H8/biy2WTkbmQPLYwgWIu9ptkRLOVa0sXKPDNCKPXs291/atlVilUjXVCrUflhE/Y5hYymSTm3PSqmO5WSRro+V7FiymsL9dR9uMS6CVg/9DER6xCS42tQsR+cwicb+nQY6pQEFFw92jGLeBjyk9ZgA72cVaKCQ3hFtoBDgfMyqisA2i2Y7HfZ6+o3Idg0fPEzQI7bDAZOhM4pDDs7smiFWYaN88m7h+1G7b31Tfw+R5tv2jT1gL3FPeU128BbZOzrXmUK472TLmoqX1b5erYKbZM4s3yrxPg72IdkSpFJ0hiYz1jNBtnLSxcXlQOd7TSr/2K7OR3QWMnqxf29KePMKs9WuuJu5HtA="
          aws eks update-kubeconfig --region us-east-1 --name myeksclusterday2
-         printenv
+         #printenv
          #./get_helm.sh
          kubectl get nodes
          ls -lrt
