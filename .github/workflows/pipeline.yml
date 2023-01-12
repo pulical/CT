@@ -68,13 +68,15 @@ jobs:
               
      - name: helm
        run: |
+         
          aws eks update-kubeconfig --region us-east-1 --name myeksclusterday2
-         curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
-         chmod 700 get_helm.sh
-         ./get_helm.sh
+         printenv
+         #curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+         #chmod 700 get_helm.sh
+         #./get_helm.sh
          kubectl get nodes
-         cd frontend
-         helm upgrade --install myfirstrelease myhelm -f values.yaml -f templates/deployment.yaml 
+         #cd frontend
+         #helm upgrade --install myfirstrelease myhelm -f values.yaml -f templates/deployment.yaml 
          #helm upgrade --install <release_name> <chart> --namespace <namespace> -f <values_file.yaml> [flags]
 
      
