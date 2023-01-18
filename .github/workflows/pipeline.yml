@@ -25,7 +25,7 @@ jobs:
        run: |
          git status frontend/
          git status backend-complyscan
-         git log --name-only
+         #git log --name-only
          FOLDER_NAME=$(git diff-tree --no-commit-id --name-only -r $GITHUB_SHA | cut -d'/' -f1 | sort | uniq)
          echo "The folder name is $FOLDER_NAME"
             
