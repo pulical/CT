@@ -21,12 +21,12 @@ jobs:
        id: branch_name
        run: |
         branch = basename ${{ github.ref }}
-        echo "::set-output name=branch_name::${{ branch }}"
+        #echo "::set-output name=branch_name::${{ branch }}"
         
        
      - name: Check folder name
        run: |
-         git diff --name-only --diff-filter=ACMR | grep '/$'
+         #git diff --name-only --diff-filter=ACMR | grep '/$'
          echo "The folder name is $FOLDER_NAME"
             
        
