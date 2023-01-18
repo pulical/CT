@@ -20,7 +20,7 @@ jobs:
      - name: Get branch name
        id: branch_name
        run: |
-        dirname ${{ github.ref }}
+        dirname refs/heads/main
         #echo "::set-output name=branch_name::${{ branch }}"
         
        
