@@ -19,7 +19,7 @@ jobs:
      - uses: actions/checkout@v3
      - name: Get branch name
        id: branch_name
-       run: echo "::set-output name=branch_name::${{ github.ref }}"
+       run: echo "::set-output name=branch_name::${{ github.ref | grep '$/' }}"
        
      - name: Check folder name
        run: |
