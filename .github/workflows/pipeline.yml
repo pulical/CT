@@ -20,7 +20,7 @@ jobs:
      - name: Get branch name
        id: branch_name
        run: |
-        branch = basename ${{ github.ref }}
+        basename ${{ github.ref }}
         #echo "::set-output name=branch_name::${{ branch }}"
         
        
