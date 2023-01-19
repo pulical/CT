@@ -24,10 +24,11 @@ jobs:
        id: branch_name
        run: |
         #dirname refs/heads/main
+        branchname = basename refs/heads/main
         #echo "::set-output name=branch_name::${{ github.ref }}"
         echo ":: set-output name=branchname::basename refs/heads/main"
        
-        my-output-name: ${{ steps.my-step.outputs.my-output-name }}
+        #my-output-name: ${{ steps.my-step.outputs.my-output-name }}
         
        
      - name: Check folder name
