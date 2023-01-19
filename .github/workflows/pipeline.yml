@@ -15,6 +15,9 @@ jobs:
     permissions:
       id-token: write
       contents: read
+    outputs:
+      branch: ${{ steps.branch_name.outputs.branchname }}  
+         
     steps:
      - uses: actions/checkout@v3
      - name: Get branch name
@@ -22,13 +25,15 @@ jobs:
        run: |
         #dirname refs/heads/main
         #echo "::set-output name=branch_name::${{ github.ref }}"
-        basename refs/heads/main
+        echo ":: set-output name=branchname::basename refs/heads/main"
+       
+        my-output-name: ${{ steps.my-step.outputs.my-output-name }}
         
        
      - name: Check folder name
        run: |
          #git diff --name-only --diff-filter=ACMR | grep '/$'
-         echo "The folder name is $FOLDER_NAME"
+         echo "The folder name is $branch"
             
        
      
