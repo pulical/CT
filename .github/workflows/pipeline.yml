@@ -20,13 +20,15 @@ jobs:
          
     steps:
      - uses: actions/checkout@v3
-     - name: Get branch name
+     - name: branch-name
        id: branch_name
        run: |
         #dirname refs/heads/main
         #branchname = basename refs/heads/main
         #echo "::set-output name=branch_name::${{ github.ref }}"
         echo ":: set-output name=branchname::basename refs/heads/main"
+        steps.branch-name.outputs.branchname-name
+
        
         #my-output-name: ${{ steps.my-step.outputs.my-output-name }}
         
@@ -34,7 +36,7 @@ jobs:
      - name: Check folder name
        run: |
          #git diff --name-only --diff-filter=ACMR | grep '/$'
-         echo "The folder name is $branch"
+         echo "The folder name is ${{steps.branch-name.outputs.branchname-name}}"
             
        
      
