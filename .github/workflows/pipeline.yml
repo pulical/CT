@@ -27,7 +27,10 @@ jobs:
         #branchname = basename refs/heads/main
         #echo "::set-output name=branch_name::${{ github.ref }}"
         echo ":: set-output name=branchname::basename refs/heads/main"
-        steps.branch-name.outputs.branchname-name
+        
+       
+       env:
+        branchname: ${{ steps.branch-name.outputs.branchname-name }}
 
        
         #my-output-name: ${{ steps.my-step.outputs.my-output-name }}
@@ -36,7 +39,7 @@ jobs:
      - name: Check folder name
        run: |
          #git diff --name-only --diff-filter=ACMR | grep '/$'
-         echo "The folder name is ${{steps.branch-name.outputs.branchname-name}}"
+         echo "The folder name is ${{branchname}}"
             
        
      
