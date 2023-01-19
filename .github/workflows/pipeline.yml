@@ -2,7 +2,7 @@ name: Deploy based on env
 on:
     push: 
      branches: 
-        - main
+        - master
 permissions:
    id-token: write
    contents: read 
@@ -20,24 +20,77 @@ jobs:
    
     steps:
      - uses: actions/checkout@v3
-     - name: branch-name
-       id: branch_name
+     - name: Configure AWS credentials
+       uses: aws-actions/configure-aws-credentials@v1 # More information on this action can be found below in the 'AWS Credentials' section
+       with:
+          role-to-assume: arn:aws:iam::085395249379:role/sreekanth-role-delete-me
+          aws-region: us-east-1
+          #testing
+     - name: Get ECR Login
+       run: aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 085395249379.dkr.ecr.us-east-1.amazonaws.com
+
+          
+     - name: ecr image checking/pushing
+       if: ${{ Foldername }}==frontend
+       uses: aws-actions/configure-aws-credentials@v1 # More information on this action can be found below in the 'AWS Credentials' section
+       with:
+          role-to-assume: arn:aws:iam::085395249379:role/sreekanth-role-delete-me
+          aws-region: us-east-1
+          access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          registry: ${{ steps.login-ecr.outputs.registry }}
+       env:
+         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+         ECR_REPOSITORY: complyscan-reactjs
+         IMAGE_TAG: ${{ github.sha }}
+
+     - run: |
+          cd $FOLDER_NAME
+          docker build -t <image_name> .
+          docker tag <image_name>:latest 085395249379.dkr.ecr.us-east-1.amazonaws.com/<image_name>:$IMAGE_TAG
+          docker push 085395249379.dkr.ecr.us-east-1.amazonaws.com/<image_name>:$IMAGE_TAG
+                               
+     - name: seeing images amazon ECR
        run: |
-        basename refs/heads/main
-        
-            #echo "branchname=basename refs/heads/main" >>$GITHUB_OUTPUT
-            #echo "::set-output name=branch_name::${{ github.ref }}"
-            #echo ":: set-output name=branchname::basename refs/heads/main"
-            #my-output-name: ${{ steps.my-step.outputs.my-output-name }}
-        
-       
-     - name: Check folder name
-       run: echo "hi"
+         aws ecr list-images --repository-name sample-repo --region us-east-1
          
-     - name: Get changed folder name
-       id: get_changed_folder
-       run: |
-         CHANGED_FOLDERS=$(curl -s https://api.github.com/repos/${{ env.GITHUB_REPOSITORY }}/commits/${{ env.GITHUB_SHA }}/pulls?access_token=${{ secrets.GITHUB_TOKEN }} | jq -r '.[0].changed_files | map(select(.status == "modified")) | map(.filename) | join(" ")')
-         echo "Changed folders: $CHANGED_FOLDERS"
-       
      
+     - name: ecr image checking/pushing
+       if: ${{ Foldername }}==backend-complyscan
+       uses: aws-actions/configure-aws-credentials@v1 # More information on this action can be found below in the 'AWS Credentials' section
+       with:
+          role-to-assume: arn:aws:iam::085395249379:role/sreekanth-role-delete-me
+          aws-region: us-east-1
+          access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          registry: ${{ steps.login-ecr.outputs.registry }}
+       env:
+         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+         ECR_REPOSITORY: complyscan-server
+         IMAGE_TAG: ${{ github.sha }}
+
+     - run: |
+          cd $FOLDER_NAME
+          docker build -t <image_name> .
+          docker tag <image_name>:latest 085395249379.dkr.ecr.us-east-1.amazonaws.com/<image_name>:$IMAGE_TAG
+          docker push 085395249379.dkr.ecr.us-east-1.amazonaws.com/<image_name>:$IMAGE_TAG
+
+              
+     - name: helm
+       run: |
+         printenv
+         export AWS_ACCESS_KEY_ID="ASIARHYPUDDRW327MWLC"
+         export AWS_SECRET_ACCESS_KEY="/gowGpiF5qLsrC3gsYOqg98gIvFzd1wdfwjTe4kP"
+         export AWS_SESSION_TOKEN="IQoJb3JpZ2luX2VjEF4aCXVzLXdlc3QtMiJIMEYCIQDflmMFe3SYbxO6msftVqSii4apgtnikRtWvkp4d6JzjQIhANQfsjAAGMmLlPDj6SHPxsNAxgbfaNxiwllnNCI8w+gAKv8CCLf//////////wEQARoMMDg1Mzk1MjQ5Mzc5Igx8EUix3xI8rfU8j7cq0wIk5XG5yVvPsPcvPOzncMLxMnYx7TEEbM/Xa3LOlJVi0yP3fXpqxeDeRzE79d8Z+Wnus3Sk3Qweu9d3D9f/KEXDkDVZ+VLwIiwcc+MYB+u8WmqoHcdP4nwDmUTEfJRABa4Fq+x/+La2LTyXOwwvD3hykNgpcU51x2i97ayps5yIlJp2lGMLDdCcPGhjE5eVy0eRo2LObXbstB9YtwoJXqf/zTAhZBSxg1Lj/sLWw56xHRYzuwXyTYi5Zo4LNig/5i6Q1RwaNYX5OaFpHsePSB9JAc3rq7jkj7aYJ/C0A5snOsQND0STjFYLUZC53eK6OxhS3olgq2tJ1H8/biy2WTkbmQPLYwgWIu9ptkRLOVa0sXKPDNCKPXs291/atlVilUjXVCrUflhE/Y5hYymSTm3PSqmO5WSRro+V7FiymsL9dR9uMS6CVg/9DER6xCS42tQsR+cwicb+nQY6pQEFFw92jGLeBjyk9ZgA72cVaKCQ3hFtoBDgfMyqisA2i2Y7HfZ6+o3Idg0fPEzQI7bDAZOhM4pDDs7smiFWYaN88m7h+1G7b31Tfw+R5tv2jT1gL3FPeU128BbZOzrXmUK472TLmoqX1b5erYKbZM4s3yrxPg72IdkSpFJ0hiYz1jNBtnLSxcXlQOd7TSr/2K7OR3QWMnqxf29KePMKs9WuuJu5HtA="
+         aws eks update-kubeconfig --region us-east-1 --name myeksclusterday2
+         #printenv
+         #./get_helm.sh
+         kubectl get nodes
+         ls -lrt
+         #kubectl apply -f frontend.yml
+         kubectl get pods
+         #kubectl delete deployment complyscan-reactjs-deployment
+         #kubectl delete service http-web-svc
+         helm install my-release ./frontend
+         #helm upgrade --install <release_name> <chart> --namespace <namespace> -f <values_file.yaml> [flags]
+       
