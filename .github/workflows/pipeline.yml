@@ -23,12 +23,12 @@ jobs:
      - name: branch-name
        id: branch_name
        run: |
-         basename refs/heads/main
-        #echo "branchname=basename refs/heads/main" >>$GITHUB_OUTPUT
-        #echo "::set-output name=branch_name::${{ github.ref }}"
-        #echo ":: set-output name=branchname::basename refs/heads/main"
-       
-        #my-output-name: ${{ steps.my-step.outputs.my-output-name }}
+        basename refs/heads/main
+        
+            #echo "branchname=basename refs/heads/main" >>$GITHUB_OUTPUT
+            #echo "::set-output name=branch_name::${{ github.ref }}"
+            #echo ":: set-output name=branchname::basename refs/heads/main"
+            #my-output-name: ${{ steps.my-step.outputs.my-output-name }}
         
        
      - name: Check folder name
