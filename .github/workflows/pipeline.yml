@@ -20,7 +20,7 @@ jobs:
      - name: Get branch name
        id: branch_name
        run: |
-        dirname refs/heads/main
+        #dirname refs/heads/main
         #echo "::set-output name=branch_name::${{ branch }}"
         basename refs/heads/main
         
