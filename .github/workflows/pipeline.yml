@@ -21,7 +21,7 @@ jobs:
        id: branch_name
        run: |
         #dirname refs/heads/main
-        #echo "::set-output name=branch_name::${{ branch }}"
+        #echo "::set-output name=branch_name::${{ github.ref }}"
         basename refs/heads/main
         
        
