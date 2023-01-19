@@ -37,6 +37,6 @@ jobs:
        run: |
          #git diff --name-only --diff-filter=ACMR | grep '/$'
          #echo "The folder name is ${{branchname}}"
-         echo ${{needs.branch_name.outputs.branch}}  
+         echo ${{needs.build.outputs.branch}}  
        
      
