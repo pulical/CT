@@ -15,21 +15,19 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    outputs:
-      branch: ${{ steps.branch_name.outputs.branchname }}
+    #outputs:
+     # branch: ${{ steps.branch_name.outputs.branchname }}
    
     steps:
      - uses: actions/checkout@v3
      - name: branch-name
        id: branch_name
        run: |
-        #dirname refs/heads/main
-        echo "branchname=basename refs/heads/main" >>$GITHUB_OUTPUT
+         basename refs/heads/main
+        #echo "branchname=basename refs/heads/main" >>$GITHUB_OUTPUT
         #echo "::set-output name=branch_name::${{ github.ref }}"
         #echo ":: set-output name=branchname::basename refs/heads/main"
-        
-         
-         
+       
         #my-output-name: ${{ steps.my-step.outputs.my-output-name }}
         
        
@@ -37,6 +35,12 @@ jobs:
        run: |
          #git diff --name-only --diff-filter=ACMR | grep '/$'
          #echo "The folder name is ${{branchname}}"
-         echo ${{needs.build.outputs.branch}}  
+         #echo ${{needs.build.outputs.branch}}  
+         
+     - name: Get changed folder name
+       id: get_changed_folder
+       run: |
+         CHANGED_FOLDERS=$(curl -s https://api.github.com/repos/${{ env.GITHUB_REPOSITORY }}/commits/${{ env.GITHUB_SHA }}/pulls?access_token=${{ secrets.GITHUB_TOKEN }} | jq -r '.[0].changed_files | map(select(.status == "modified")) | map(.filename) | join(" ")')
+         echo "Changed folders: $CHANGED_FOLDERS"
        
      
