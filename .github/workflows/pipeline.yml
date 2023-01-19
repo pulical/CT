@@ -35,7 +35,8 @@ jobs:
        run: |
          #git diff --name-only --diff-filter=ACMR | grep '/$'
          #echo "The folder name is ${{branchname}}"
-         #echo ${{needs.build.outputs.branch}}  
+         #echo ${{needs.build.outputs.branch}} 
+         echo "hi"
          
      - name: Get changed folder name
        id: get_changed_folder
