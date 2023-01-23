@@ -1,0 +1,28 @@
+name: Deploy based on env
+on:
+    push: 
+     branches: 
+        - main
+permissions:
+   id-token: write
+   contents: read 
+
+jobs: 
+     
+  build:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+     - uses: actions/checkout@v3
+     - name: Get branch name
+       id: branch_name
+       run: echo "::set-output name=branch_name::${{ github.ref }}"
+       
+     - name: Check folder name
+       run: |
+         git log --name-only
+         FOLDER_NAME=$(git diff-tree --no-commit-id --name-only -r $GITHUB_SHA | cut -d'/' -f1 | sort | uniq)
+         echo "The folder name is $FOLDER_NAME"
