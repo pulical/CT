@@ -38,8 +38,7 @@ jobs:
      - name: installing using helm
        run: |
             #export AWS_SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN }}
-            aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --role-arn ${{secrets.AWS_ROLE}} --name ${{secrets.CLUSTER_NAME}}
-            #aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --role-arn ${{secrets.AWS_ROLE}} --name ${{ secrets.CLUSTER_NAME }}
+            aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --role-arn ${{ secrets.AWS_ROLE }} --name ${{ secrets.CLUSTER_NAME }}
             ls -lrt
             cd backend-complyscan
             kubectl get pods
