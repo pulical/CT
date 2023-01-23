@@ -21,6 +21,11 @@ jobs:
        id: branch_name
        run: echo "::set-output name=branch_name::${{ github.ref }}"
        
+     - name: Setup Environment (Push)  
+       if: ${{ github.event_name == 'push' }}  
+       shell: bash  
+       run: |  
+        echo "LAST_COMMIT_SHA=${GITHUB_SHA}" >> ${GITHUB_ENV}
      - name: Check folder name
        run: |
          #git log --name-only
