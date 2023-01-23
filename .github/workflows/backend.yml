@@ -38,8 +38,7 @@ jobs:
      - name: installing using helm
        run: |
             #export AWS_SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN }}
-            aws eks update-kubeconfig --name ${{secrets.CLUSTER_NAME}} --region ${{secrets.AWS_REGION}} --role-arn arn:aws:iam::085395249379:role/cs-clusterrole-eks
-            ls -lrt
+            aws eks update-kubeconfig --name ${{secrets.CLUSTER_NAME}} --region ${{secrets.AWS_REGION}}
             cd backend-complyscan
             kubectl get pods
             helm upgrade --install COMPLYTRUST ./backend-complyscan
