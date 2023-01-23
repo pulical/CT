@@ -25,17 +25,9 @@ jobs:
        with:
           role-to-assume: ${{secrets.AWS_ROLE}}
           aws-region: ${{secrets.AWS_REGION}}
-          export-variables: true
-          role-session-name: GitHub-OIDC
-          role-duration-seconds: 3600
-          
-     - name: Test credentials
-       env:
-          AWS_ACCESS_KEY_ID: ${{ steps.my-role.outputs.aws-access-key-id }}
-          AWS_SECRET_ACCESS_KEY: ${{ steps.my-role.outputs.aws-secret-access-key }}
-          AWS_SESSION_TOKEN: ${{ steps.my-role.outputs.aws-session-token }}
-       run: aws s3 ls
-          
+          role-session-name: github-OIDC
+          role-duration-seconds: 3600
+                
      - name: Login to ECR
        id: login-ecr
        run: aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_USERNAME }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
