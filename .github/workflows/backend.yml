@@ -20,7 +20,7 @@ jobs:
     steps:
             
      - name: Fetch credentials
-       uses: dflook/configure-oidc-aws-credentials@v1
+       uses: aws-actions/configure-aws-credentials@v1
        with:
           role-arn: arn:aws:iam::${{secrets.AWS_USERNAME}}:role/sreekanth-role-delete-me
           export-variables: true
