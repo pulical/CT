@@ -1,11 +1,13 @@
-name: Deploy based on env
+name: Deploy based on component
 on:
     push: 
-     branches: 
-        - main
+     paths: 
+        - 'frontend/**'
 permissions:
    id-token: write
    contents: read 
+env: 
+   ECR_REPOSITORY: my-ecr-repository
 
 jobs: 
      
@@ -16,26 +18,39 @@ jobs:
       id-token: write
       contents: read
     steps:
-     - uses: actions/checkout@v3
-     - name: Get branch name
-       id: branch_name
-       run: | 
-        echo "::set-output name=branch_name::${{ github.ref }}"
-        repo_name=$(basename "$GITHUB_REPOSITORY")
-
- 
-     - name: Check folder name
-       run: |
-         git log --name-only
-         FOLDER_NAME=$(git diff-tree --no-commit-id --name-only -r $COMMIT_HASH)
-         echo "The folder name is $FOLDER_NAME" >> $GITHUB_OUTPUT
-         
+            
      - name: Configure AWS credentials
-       uses: aws-actions/configure-aws-credentials@v1 # More information on this action can be found below in the 'AWS Credentials' section
+       uses: aws-actions/configure-aws-credentials@v1
        with:
-          role-to-assume: 
-          aws-region: us-east-1
-          #testing
-          
-     - name: Get ECR Login
-       run: aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 085395249379.dkr.ecr.us-east-1.amazonaws.com
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
+           
+     - name: Login to ECR
+       id: login-ecr
+       run: aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_USERNAME }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+       
+     - name: Build Docker image
+       run: |
+        cd frontend
+        docker build --tag <imagename> .
+    
+     - name: Push to ECR
+       id: ecr
+       uses: jwalton/gh-ecr-push@v1
+       with:
+            access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            region: us-east-1
+            local-image: my-image
+            image: my-image:dev-${{ github.sha }}
+     
+     - name: installing using helm
+       run: |
+            export AWS_SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN }}
+            aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name ${{ secrets.CLUSTER_NAME }}
+            cd frontend
+            helm upgrade --install COMPLYTRUST ./frontend
+            
+            
