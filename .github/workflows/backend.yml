@@ -41,6 +41,6 @@ jobs:
             aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name ${{ secrets.CLUSTER_NAME }}
             ls -lrt
             cd backend-complyscan
-            #helm upgrade --install COMPLYTRUST ./backend-complyscan
+            helm upgrade --install COMPLYTRUST ./backend-complyscan
             
             
