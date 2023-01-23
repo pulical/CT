@@ -29,5 +29,5 @@ jobs:
      - name: Check folder name
        run: |
          git log --name-only
-         FOLDER_NAME=$(git diff-tree --no-commit-id --name-only -r $GITHUB_SHA | cut -d'/' -f1 | sort | uniq)
+         FOLDER_NAME=$(git diff-tree --no-commit-id --name-only -r $COMMIT_HASH)
          echo "The folder name is $FOLDER_NAME"
