@@ -36,7 +36,7 @@ jobs:
      - name: Build Docker image
        run: |
         #cd backend-complyscan
-        docker build --tag <imagename> .
+        docker build --tag firsrcontainer .
     
      - name: Push to ECR
        id: ecr
