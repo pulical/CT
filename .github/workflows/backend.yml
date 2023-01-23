@@ -23,10 +23,12 @@ jobs:
        uses: aws-actions/configure-aws-credentials@v1
        id: my-role
        with:
-          role-arn: arn:aws:iam::${{secrets.AWS_USERNAME}}:role/sreekanth-role-delete-me
+          role-to-assume: ${{secrets.AWS_ROLE}}
           aws-region: ${{secrets.AWS_REGION}}
           export-variables: true
-     
+          role-session-name: GitHub-OIDC
+          role-duration-seconds: 3600
+          
      - name: Test credentials
        env:
           AWS_ACCESS_KEY_ID: ${{ steps.my-role.outputs.aws-access-key-id }}
