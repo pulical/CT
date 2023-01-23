@@ -19,20 +19,19 @@ jobs:
       contents: read
     steps:
             
-     - name: Configure AWS credentials
-       uses: aws-actions/configure-aws-credentials@v1
+     - name: Fetch credentials
+       uses: dflook/configure-oidc-aws-credentials@v1
        with:
-            role-to-assume: ${{ secrets.ROLE_ASSUME }}
-            aws-region: ${{ secrets.AWS_REGION }}
-
-           
+          role-arn: arn:aws:iam::${{secrets.AWS_USERNAME}}:role/sreekanth-role-delete-me
+          export-variables: true
+     
      - name: Login to ECR
        id: login-ecr
        run: aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_USERNAME }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
        
      - name: Build Docker image
        run: |
-        cd backend-complyscan
+        #cd backend-complyscan
         docker build --tag <imagename> .
     
      - name: Push to ECR
@@ -41,13 +40,13 @@ jobs:
        with:
             access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
             secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            region: us-east-1
+            region: ${{secrets.AWS_REGION}}
             local-image: my-image
             image: my-image:dev-${{ github.sha }}
      
      - name: installing using helm
        run: |
-            export AWS_SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN }}
+            #export AWS_SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN }}
             aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name ${{ secrets.CLUSTER_NAME }}
             curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
             chmod 700 get_helm.sh
