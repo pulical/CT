@@ -3,6 +3,7 @@ on:
     push: 
      paths: 
         - 'backend-complyscan/**'
+    workflow_dispatch: 
 permissions:
    id-token: write
    contents: read 
