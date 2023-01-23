@@ -19,7 +19,7 @@ jobs:
       id-token: write
       contents: read
     steps:
-            
+     - uses: actions/checkout@v3
      - name: Fetch credentials
        uses: aws-actions/configure-aws-credentials@v1
        id: my-role
