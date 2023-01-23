@@ -50,6 +50,9 @@ jobs:
        run: |
             export AWS_SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN }}
             aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name ${{ secrets.CLUSTER_NAME }}
+            curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+            chmod 700 get_helm.sh
+            ./get_helm.sh
             cd backend-complyscan
             helm upgrade --install COMPLYTRUST ./backend-complyscan
             
