@@ -1,4 +1,4 @@
-aws sts assume-role --role-arn arn:aws:iam::976261016405:role/cluster_creator --role-session-name demouser > demouser.json
+aws sts assume-role --role-arn arn:aws:iam::085395249379:role/sreekanth-role-delete-me --role-session-name demouser > demouser.json
 
 export AWS_ACCESS_KEY_ID=$(jq -r ".Credentials.AccessKeyId" <demouser.json)
 export AWS_SESSION_TOKEN=$(jq -r ".Credentials.SessionToken" <demouser.json)
