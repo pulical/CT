@@ -19,17 +19,23 @@ jobs:
      - uses: actions/checkout@v3
      - name: Get branch name
        id: branch_name
-       run: echo "::set-output name=branch_name::${{ github.ref }}"
-       
-     - name: Setup Environment (Push)  
-       if: ${{ github.event_name == 'push' }}  
-       shell: bash  
-       run: |  
-        echo "LAST_COMMIT_SHA=${GITHUB_SHA}" >> ${GITHUB_ENV}
+       run: | 
+        echo "::set-output name=branch_name::${{ github.ref }}"
+        repo_name=$(basename "$GITHUB_REPOSITORY")
+
+ 
      - name: Check folder name
        run: |
-         git show $commitId$ --name-only
-         #git log --name-status -10 path/to/dir
-         #git log --name-only
-         #FOLDER_NAME=$(git diff-tree --no-commit-id --name-only -r $COMMIT_HASH)
-         #echo "The folder name is $FOLDER_NAME"
+         git log --name-only
+         FOLDER_NAME=$(git diff-tree --no-commit-id --name-only -r $COMMIT_HASH)
+         echo "The folder name is $FOLDER_NAME"
+         
+     - name: Configure AWS credentials
+       uses: aws-actions/configure-aws-credentials@v1 # More information on this action can be found below in the 'AWS Credentials' section
+       with:
+          role-to-assume: 
+          aws-region: us-east-1
+          #testing
+          
+     - name: Get ECR Login
+       run: aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 085395249379.dkr.ecr.us-east-1.amazonaws.com
