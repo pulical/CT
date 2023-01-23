@@ -24,7 +24,7 @@ jobs:
        uses: aws-actions/configure-aws-credentials@v1
        id: my-role
        with:
-          role-to-assume: ${{secrets.AWS_ROLE}}
+          role-to-assume: arn:aws:iam::085395249379:role/cs-clusterrole-eks
           aws-region: ${{secrets.AWS_REGION}}
           role-session-name: github-OIDC
           role-duration-seconds: 3600
@@ -38,7 +38,7 @@ jobs:
      - name: installing using helm
        run: |
             #export AWS_SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN }}
-            aws eks update-kubeconfig --name ${{secrets.CLUSTER_NAME}} --region ${{secrets.AWS_REGION}} --role-arn arn:aws:iam::085395249379:role/backend-Role-DLJSHGRI0CUO 
+            aws eks update-kubeconfig --name ${{secrets.CLUSTER_NAME}} --region ${{secrets.AWS_REGION}} --role-arn arn:aws:iam::085395249379:role/cs-clusterrole-eks
             ls -lrt
             cd backend-complyscan
             kubectl get pods
