@@ -28,6 +28,7 @@ jobs:
         echo "LAST_COMMIT_SHA=${GITHUB_SHA}" >> ${GITHUB_ENV}
      - name: Check folder name
        run: |
-         git log --name-only
-         FOLDER_NAME=$(git diff-tree --no-commit-id --name-only -r $COMMIT_HASH)
-         echo "The folder name is $FOLDER_NAME"
+         git log --name-status -10 path/to/dir
+         #git log --name-only
+         #FOLDER_NAME=$(git diff-tree --no-commit-id --name-only -r $COMMIT_HASH)
+         #echo "The folder name is $FOLDER_NAME"
