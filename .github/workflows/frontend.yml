@@ -3,6 +3,7 @@ on:
     push: 
      paths: 
         - 'frontend/**'
+    workflow_dispatch: 
 permissions:
    id-token: write
    contents: read 
@@ -18,39 +19,27 @@ jobs:
       id-token: write
       contents: read
     steps:
-            
-     - name: Configure AWS credentials
+     - uses: actions/checkout@v3
+     - name: Fetch credentials
        uses: aws-actions/configure-aws-credentials@v1
+       id: my-role
        with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ secrets.AWS_REGION }}
-
-           
+          role-to-assume: ${{secrets.AWS_ROLE}}
+          aws-region: ${{secrets.AWS_REGION}}
+          role-session-name: github-OIDC
+          role-duration-seconds: 3600
+                
      - name: Login to ECR
        id: login-ecr
        run: aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_USERNAME }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
        
-     - name: Build Docker image
-       run: |
-        cd frontend
-        docker build --tag <imagename> .
-    
-     - name: Push to ECR
-       id: ecr
-       uses: jwalton/gh-ecr-push@v1
-       with:
-            access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-            secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            region: us-east-1
-            local-image: my-image
-            image: my-image:dev-${{ github.sha }}
+     
      
      - name: installing using helm
        run: |
-            export AWS_SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN }}
-            aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name ${{ secrets.CLUSTER_NAME }}
+            #export AWS_SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN }}
+            aws eks update-kubeconfig --name ${{secrets.CLUSTER_NAME}} --region ${{secrets.AWS_REGION}} --role-arn arn:aws:iam::085395249379:role/cs-clusterrole-eks
+            ls -lrt
             cd frontend
-            helm upgrade --install COMPLYTRUST ./frontend
-            
-            
+            kubectl get pods
+            helm upgrade --install COMPLYTRUST ./backend-complyscan
