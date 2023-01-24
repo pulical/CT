@@ -43,7 +43,9 @@ jobs:
             #export AWS_SECRET_ACCESS_KEY=$(echo $OUT | jq -r '.Credentials''.SecretAccessKey');\
             #export AWS_SESSION_TOKEN=$(echo $OUT | jq -r '.Credentials''.SessionToken');
             aws sts get-caller-identity
-            aws sts get-session-token
+            aws configure get aws_access_key_id --profile github-OIDC
+            aws configure get aws_secret_access_key --profile github-OIDC
+            aws configure get aws_session_token --profile github-OIDC
             
             aws eks update-kubeconfig --name ${{secrets.CLUSTER_NAME}} --region ${{secrets.AWS_REGION}}
             cd backend-complyscan
