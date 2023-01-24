@@ -37,7 +37,7 @@ jobs:
      
      - name: installing using helm
        run: |
-            export AWS_SESSION_TOKEN=${{ env.AWS_SESSION_TOKEN }}
+            #export AWS_SESSION_TOKEN=${{ env.AWS_SESSION_TOKEN }}
             aws eks update-kubeconfig --name ${{secrets.CLUSTER_NAME}} --region ${{secrets.AWS_REGION}} --role-arn arn:aws:iam::085395249379:role/cs-clusterrole-eks
             ls -lrt
             cd frontend
