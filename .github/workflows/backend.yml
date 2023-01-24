@@ -44,7 +44,7 @@ jobs:
             export AWS_SESSION_TOKEN=$(echo $OUT | jq -r '.Credentials''.SessionToken');
             aws sts get-caller-identity
             aws s3 ls
-            aws eks update-kubeconfig --name ${{secrets.CLUSTER_NAME}} --region ${{secrets.AWS_REGION}} --role-arn $${{secrets.AWS_ROLE}}
+            aws eks update-kubeconfig --name ${{secrets.CLUSTER_NAME}} --region ${{secrets.AWS_REGION}}
             cd backend-complyscan
             kubectl get pods
             helm upgrade --install COMPLYTRUST ./backend-complyscan
