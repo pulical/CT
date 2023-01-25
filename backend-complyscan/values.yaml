@@ -1,7 +1,7 @@
 replicaCount: 1
 dynamo:
   name: complyscan-dynamo-deployment
-  image: 103818842073.dkr.ecr.us-east-2.amazonaws.com/dynamo-license:latest
+  image: 103818842073.dkr.ecr.us-east-2.amazonaws.com/dynamo-license:1.0
   containername: http-dynamo-svc
 service:
   name: dynamo
