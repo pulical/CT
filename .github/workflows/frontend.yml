@@ -7,8 +7,6 @@ on:
 permissions:
    id-token: write
    contents: read 
-env: 
-   ECR_REPOSITORY: my-ecr-repository
 
 jobs: 
      
@@ -26,20 +24,27 @@ jobs:
        with:
           role-to-assume: ${{secrets.AWS_ROLE}}
           aws-region: ${{secrets.AWS_REGION}}
-          role-session-name: github-OIDC
+          role-session-name: AWSCLI-Session
           role-duration-seconds: 3600
-                
-     - name: Login to ECR
-       id: login-ecr
-       run: aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_USERNAME }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
-       
-     
-     
-     - name: installing using helm
+          
+     - name: Building Docker image and pushing to ECR
        run: |
-            #export AWS_SESSION_TOKEN=${{ env.AWS_SESSION_TOKEN }}
-            aws eks update-kubeconfig --name ${{secrets.CLUSTER_NAME}} --region ${{secrets.AWS_REGION}} 
-            ls -lrt
-            cd frontend
+         docker build -t complygitaction .
+         
+     - name: login to ECR.
+       run: |
+         aws ecr get-login-password --region ${{secrets.AWS_REGION}} | docker login --username AWS --password-stdin ${{secrets.ECR_LOGIN}} 
+         docker images
+         docker tag complygitaction:latest ${{secrets.ECR_LOGIN}}/complygitaction:latest
+         docker push ${{secrets.ECR_LOGIN}}/complygitaction:latest
+         
+     - name: deploying using helm
+       run: |
+            aws eks update-kubeconfig --name ${{secrets.CLUSTER_NAME}} --region ${{secrets.AWS_REGION}}
+            #cd backend-complyscan
             kubectl get pods
-            helm upgrade --install COMPLYTRUST ./backend-complyscan
+            ls
+            helm upgrade --install complytrust ./frontend
+            kubectl get pod -o wide
+                        
+            
