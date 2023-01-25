@@ -9,6 +9,6 @@ spec:
     app: {{ .Values.service.name }}
   ports:
   - name: {{ .Values.dynamo.containername }}
-    protocol: {{ .values.service.protocol }}
+    protocol: {{ .Values.service.protocol }}
     port: {{ .Values.service.port }}       
-    targetPort: {{ .Values.dynamo.containername }}   
+    targetPort: {{ .Values.service.targetPort }}
