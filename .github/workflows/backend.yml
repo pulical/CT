@@ -29,12 +29,14 @@ jobs:
           
      - name: Building Docker image and pushing to ECR
        run: |
-         docker build -t firstcontainer:${{ github.sha }} .
+         docker build -t firstcontainer .
          
      - name: login to ECR.
        run: |
-         docker push ${{secrets.REPO_NAME}}/firstcontainer:${{ github.sha }}
-     
+         aws ecr get-login-password --region ${{secrets.AWS_REGION}} | docker login --username AWS --password-stdin ${{secrets.ECR_LOGIN}}
+         docker tag complytrust:latest ${{secrets.ECR_LOGIN}}/complytrust:latest
+         docker push ${{secrets.ECR_LOGIN}}/complytrust:latest
+         
      - name: deploying using helm
        run: |
             
