@@ -19,5 +19,5 @@ spec:
        image: {{ .Values.dynamo.image }}  
        ports:
        - containerPort: {{ .Values.service.targetport }}
-         name: {{ .values.dynamo.containername }}
+         name: {{ .Values.dynamo.containername }}
       
