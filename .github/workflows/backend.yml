@@ -29,14 +29,14 @@ jobs:
           
      - name: Building Docker image and pushing to ECR
        run: |
-         docker build -t complytrust .
+         docker build -t complygitaction .
          
      - name: login to ECR.
        run: |
-         aws ecr get-login-password --region ${{secrets.AWS_REGION}} | docker login --username AWS --password-stdin ${{secrets.ECR_LOGIN}}
+         aws ecr get-login-password --region ${{secrets.AWS_REGION}} | docker login --username AWS --password-stdin ${{secrets.ECR_LOGIN}} 
          docker images
-         docker tag complytrust:latest ${{secrets.ECR_LOGIN}}/complytrust:latest
-         docker push ${{secrets.ECR_LOGIN}}/complytrust:latest
+         docker tag complygitaction:latest ${{secrets.ECR_LOGIN}}/complygitaction:latest
+         docker push ${{secrets.ECR_LOGIN}}/complygitaction:latest
          
      - name: deploying using helm
        run: |
