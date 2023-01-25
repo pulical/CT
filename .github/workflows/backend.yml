@@ -40,13 +40,11 @@ jobs:
          
      - name: deploying using helm
        run: |
-            
-            aws s3 ls
             aws eks update-kubeconfig --name ${{secrets.CLUSTER_NAME}} --region ${{secrets.AWS_REGION}}
-            cd backend-complyscan
+            #cd backend-complyscan
             kubectl get pods
-            helm ls
-            helm -version
-            #helm upgrade --install complytrust ./backend-complyscan
-            
+            ls
+            helm install complytrust ./backend-complyscan
+            kubectl get pod -o wide
+                        
             
