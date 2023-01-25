@@ -1,7 +1,7 @@
 replicaCount: 1
 frontend:
   name: complyscan-reactjs-deployment
-  image: 103818842073.dkr.ecr.us-east-2.amazonaws.com/complyscan-reactjs:20.0
+  image: 085395249379.dkr.ecr.us-east-2.amazonaws.com/complyscan-reactjs:1.0
   containername: reactjs
 service:
   name: http-web-svc
