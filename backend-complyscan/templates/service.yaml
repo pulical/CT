@@ -11,4 +11,4 @@ spec:
   - name: {{ .Values.dynamo.containername }}
     protocol: {{ .Values.service.protocol }}
     port: {{ .Values.service.port }}       
-    targetPort: {{ .Values.service.targetPort }}
+    targetPort: {{ .Values.service.targetport }}
