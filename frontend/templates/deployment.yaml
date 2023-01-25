@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "frontend.fullname" . }}
+  name: complyscan-reactjs-deployment
   labels:
-    {{- include "frontend.labels" . | nindent 4}}
+    app: reactjs
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "frontend.selectorLabels" . | nindent 6}}
+      app: reactjs
   template:
     metadata:
       labels:
-        {{- include "frontend.selectorLabels" . | nindent 8}}
+        app: reactjs
     spec:
       containers:
       - name: {{ .Values.frontend.containername }}
