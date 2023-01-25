@@ -44,7 +44,7 @@ jobs:
             #cd backend-complyscan
             kubectl get pods
             ls
-            helm install complytrust ./backend-complyscan
+            helm upgrade --install complytrust ./backend-complyscan
             kubectl get pod -o wide
                         
             
