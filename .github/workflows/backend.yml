@@ -27,15 +27,21 @@ jobs:
           role-session-name: AWSCLI-Session
           role-duration-seconds: 3600
           
-        
+     - name: Building Docker image and pushing to ECR
+       run: |
+         docker build -t firstcontainer:${{ github.sha }} .
+         
+     - name: login to ECR.
+       run: |
+         docker push ${{secrets.REPO_NAME}}/firstcontainer:${{ github.sha }}
      
-     - name: installing using helm
+     - name: deploying using helm
        run: |
             
             aws s3 ls
             aws eks update-kubeconfig --name ${{secrets.CLUSTER_NAME}} --region ${{secrets.AWS_REGION}}
             cd backend-complyscan
             kubectl get pods
-            helm upgrade --install COMPLYTRUST ./backend-complyscan
+            helm upgrade --install complytrust ./backend-complyscan
             
             
