@@ -14,7 +14,7 @@ spec:
       labels:
         app: dynamo
     spec:
-      containers:
+     containers:
      - name: {{ .Values.service.name }}
        image: {{ .Values.dynamo.image }}  
        ports:
