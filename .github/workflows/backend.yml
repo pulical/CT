@@ -45,6 +45,8 @@ jobs:
             aws eks update-kubeconfig --name ${{secrets.CLUSTER_NAME}} --region ${{secrets.AWS_REGION}}
             cd backend-complyscan
             kubectl get pods
-            helm upgrade --install complytrust ./backend-complyscan
+            helm ls
+            helm -version
+            #helm upgrade --install complytrust ./backend-complyscan
             
             
